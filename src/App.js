@@ -1,6 +1,9 @@
 import React from 'react';
 import Cart from './Cart';
 import Navbar from './Navbar';
+import 'firebase/firestore'
+import firebase from 'firebase/app'
+
 class App extends React.Component {
   constructor() {
     super();
@@ -30,6 +33,18 @@ class App extends React.Component {
       ]
     }
   }
+  componentDidMount(){
+    firebase.firestore()
+    .collection('products').get()
+    .then((snapshot)=>{
+      snapshot.docs.map((doc)=>{
+        console.log(doc.data())
+      })
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }  
   handleIncreaseQuantity = (product) => {
     const mainele = this.state.products;
     const index = mainele.indexOf(product);
